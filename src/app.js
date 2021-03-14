@@ -2,14 +2,15 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import path from 'path'
+import path from 'path';
+import dotenv from 'dotenv';
 import methodOverride from 'method-override';
-import { devUri } from './config/config';
+//import { devUri } from './config/config';
 import userRoute from './routes/user';
 
 const app = express();
 
-
+dotenv.config();
 const isProduction = process.env.NODE_ENV === 'production';
 
 // Normal express config defaults
@@ -28,8 +29,8 @@ const options = {
   autoIndex: false, // Don't build indexes
   poolSize: 10, // Maintain up to 10 socket connections
 };
-
-mongoose.connect(devUri, options, (err) => {
+const DATABASE_URL =process.env.devUri || '';
+mongoose.connect(DATABASE_URL, options, (err) => {
   if (err) throw err;
   console.log('connected to the DB!');
 });

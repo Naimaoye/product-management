@@ -10,7 +10,7 @@ const SERVICE_ACCOUNT = process.env.GOOGLE_APPLICATION_CREDENTIALS || '';
 
 admin.initializeApp({
 	credential: admin.credential.cert(SERVICE_ACCOUNT),
-	databaseURL: 'product-manatgemen.appspot.com',
+	storageBucket: 'product-manatgemen.appspot.com',
 });
 
 var bucket = admin.storage().bucket();

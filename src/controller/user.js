@@ -1,10 +1,11 @@
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv'
 import User from '../models/user';
 import Product from '../models/product';
 import Comment from '../models/comment';
 import { uploadFile } from '../config/firebase';
-import { SECRET_KEY } from '../config/config';
 
+dotenv.config();
 
 
 
@@ -89,9 +90,10 @@ static async uploadProduct(req, res) {
       email = email.trim().toLowerCase();
       password = password;  
       const resp = await User.findOne({ email });
+      const key = process.env.SECRET_KEY
       let token = jwt.sign({
         id: resp.id,
-      }, SECRET_KEY, { expiresIn: '12h' });
+      }, key, { expiresIn: '12h' });
       return res.status(200).json({
         status: 200, 
         message:'Login successful.',
