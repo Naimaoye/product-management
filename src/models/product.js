@@ -5,10 +5,7 @@ const productSchema =  new mongoose.Schema({
     productName: { type: String },
     location: { type: String },
     createdAt: { type: Date, default: Date.now },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-      }
+    userId: { type: String }
 });
 
 

@@ -1,5 +1,6 @@
 import express from 'express';
 import UserController from '../controller/user';
+import Authentication from '../utils/checkAuth';
 import userValidations from '../middleware/userValidation';
 
 const userRoute = express.Router();
@@ -15,7 +16,7 @@ userRoute.post('/signin',
   UserController.signin);
 
   userRoute.post(
-    '/uploadProduct',
+    '/uploadProduct', Authentication.verifyToken,
     UserController.uploadProduct);
 
     userRoute.get(
@@ -23,8 +24,18 @@ userRoute.post('/signin',
         UserController.returnUserSearchProduct);
 
 userRoute.get(
-        '/userLocationProducts/:id',
+        '/userLocationProducts', Authentication.verifyToken,
         UserController.returnUserProductView);
+
+userRoute.post(
+  '/comment/:productId', Authentication.verifyToken,
+  UserController.createComment
+);
+
+userRoute.post(
+  '/reply/:commentId', Authentication.verifyToken,
+  UserController.replyComment
+);
   
 
-      export default userRoute; 
+export default userRoute; 

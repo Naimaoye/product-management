@@ -11,11 +11,15 @@ const address = Joi.string().trim()
 const password = Joi.string()
   .label('password must not be empty');
 
+  const phoneNumber = Joi.string()
+  .label('phoneNumber must not be empty');
+
     export default {
         signup: Joi.object().keys({
           email,
           address,
           password,
+          phoneNumber
         }),
         signin: Joi.object().keys({
           email,
