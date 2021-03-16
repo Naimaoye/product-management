@@ -35,10 +35,10 @@ export default class UserController {
 static async signup(req, res) {
   try{
 let {
-    address, email, password
+    address, email, password, phoneNumber
   } = req.body;
   let user = {
-    address, email, password
+    address, email, password, phoneNumber
   };
    
   let newUser = new User(user);
