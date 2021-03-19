@@ -6,7 +6,6 @@ import Comment from '../models/comment';
 import Reply from '../models/reply';
 import sendEmail from '../utils/mailer';
 import transporter from '../utils/transporter';
-import { uploadFile } from '../config/firebase';
 
 dotenv.config();
 
@@ -70,7 +69,6 @@ static async uploadProduct(req, res) {
     let { imageLink, productName, location } = req.body;
     const userId = req.user.id;
       //firestore comes here
-      uploadFile(imageLink).catch(console.error);
       let newProduct = new Product({
         imageLink, 
         productName, 
