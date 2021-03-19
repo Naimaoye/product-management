@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import fetch from 'node-fetch';
 import dotenv from 'dotenv';
 import User from '../models/user';
 import Product from '../models/product';
@@ -176,22 +177,41 @@ static async returnUserProductView(req, res) {
       const userId = req.user.id;
       const user = await User.findOne({_id: userId});
     const {address} = user;
-      const products = await Product.find({location: address});
-      if(!product){
+      const products = await Product.find();
+      if(!products){
         return res.status(404).json({
           status: 404,
           message: 'no product found in your location',
       });
       }
-      return res.status(200).json({
-        status: 200,
-        data: products
-    });
+      const validProducts = [];
+      for(let product of products){
+        const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${product.location}&destinations=${address}&mode=vehicle&language=en&key=${process.env.ApiKey}`;
+									const resp = await fetch(url);
+									const distanceMatrix = await resp.json();
+									const distance = distanceMatrix.rows[0].elements[0].distance.value;
+									const distanceRes = distance / 1000;
+            if(distanceRes <= 100){
+              validProducts.push(product);
+            }
+      }
+      if(validProducts.length >= 1){
+        return res.status(200).json({
+          status: 200,
+          data: validProducts
+      });
+      } else {
+        return res.status(200).json({
+          status: 200,
+          data: []
+      });
+      }
      
     } catch(e){
+      console.log("err", e)
       res.status(500).json({
         status: 500,
-        message: err
+        message: "something went wrong"
       })
     }
   }
