@@ -1,3 +1,21 @@
-node_modules
-.env
+
+# Typescript v1 declaration files
+typings/
+
+node_modules/
+
+.DS_Store
+.runtimeconfig.json
+
+report.*
+
+google-cloud.json
+
+#dist/*
+
+.jest-cache
+
+cache/
+!.prettierrc.js
+
 .env*
